@@ -322,9 +322,9 @@ footer { text-align: center; color: var(--muted); font: 1.1rem/2 var(--hand); pa
 // ✏️ EDITA AQUÍ: todo lo personal está en este bloque.
 const CONFIG = {
   nombre: "Jhosmeli",
-  fecha: "7 de octubre de 2026",
+  fecha: "7 de octubre de 2026 · 21 años",
   subtitulo: "Hoy es el día más bonito del año, porque es el tuyo.",
-  velas: 5,
+  edad: 21, // velas con forma de número
   // Canción de fondo (YouTube). inicio = segundo en que empieza.
   cancion: { id: "OukQDrJ7QRQ", titulo: "Aprender a quererte · Morat", inicio: 0 },
   // Fecha en que empezaron (AAAA-MM-DD). Déjala vacía "" para ocultar el contador.
@@ -348,7 +348,7 @@ const CONFIG = {
     "Cuando te vi tuve un buen presentimiento, de esos que llegan una vez en la vida. Desde el 7 de agosto de 2023 supe que no me había equivocado, y hoy, justo el día de tu cumpleaños, cumplimos 3 años y 2 meses juntos.",
     "Aunque hoy haya kilómetros entre nosotros, estoy contigo en cada minuto de este día. Cada risa tuya la siento desde aquí, y cada día que pasa te extraño un poquito más.",
     "Gracias por tu paciencia, por tu forma de quererme y por hacer que los días normales se sientan especiales. Quiero seguir aprendiendo a quererte, y quiero estudiar cómo se cumplen tus sueños para ayudarte a cumplir cada uno.",
-    "Feliz cumpleaños, mi amor. Que este año te dé todo lo que mereces, que es muchísimo.",
+    "Feliz cumpleaños número 21, mi amor. Que este año te dé todo lo que mereces, que es muchísimo.",
   ],
   firma: "Te amo, Gabriel",
   frases: [
@@ -489,19 +489,19 @@ $("gift").onclick = () => {
 
 // ---------- Velas ----------
 const NS = "http://www.w3.org/2000/svg";
-const n = Math.max(1, Math.min(CONFIG.velas, 12));
+const digits = [...String(CONFIG.edad)], n = digits.length;
 const cc = ["#f5a3c0", "#9fe0f0", "#f3c96f", "#b99cff"];
 let lit = n;
 for (let i = 0; i < n; i++) {
-  const x = n === 1 ? 150 : 75 + (150 / (n - 1)) * i;
+  const x = 150 + (i - (n - 1) / 2) * 62;
   const g = document.createElementNS(NS, "g");
   g.setAttribute("class", "candle"); g.setAttribute("tabindex", "0");
-  g.setAttribute("role", "button"); g.setAttribute("aria-label", `Soplar vela ${i + 1}`);
-  g.innerHTML = `<circle class="glow" cx="${x}" cy="52" r="24" fill="url(#g)"/>
-    <rect class="stick" x="${x - 5}" y="66" width="10" height="44" rx="3" fill="${cc[i % cc.length]}"/>
-    <line x1="${x}" y1="66" x2="${x}" y2="60" stroke="#3a2a2a" stroke-width="1.5"/>
-    <path class="flame" d="M${x} 40 C${x + 8} 50 ${x + 6} 60 ${x} 60 C${x - 6} 60 ${x - 8} 50 ${x} 40Z" fill="#ffcf5a"/>
-    <circle class="smoke" cx="${x}" cy="56" r="4" fill="#d4aebd"/>`;
+  g.setAttribute("role", "button"); g.setAttribute("aria-label", `Soplar vela del ${digits[i]}`);
+  g.innerHTML = `<circle class="glow" cx="${x}" cy="30" r="26" fill="url(#g)"/>
+    <text class="stick" x="${x}" y="112" text-anchor="middle" font-family="Gloock, Georgia, serif" font-size="78" fill="${cc[i % cc.length]}" stroke="#fff8" stroke-width="1.5">${digits[i]}</text>
+    <line x1="${x}" y1="56" x2="${x}" y2="48" stroke="#3a2a2a" stroke-width="1.5"/>
+    <path class="flame" d="M${x} 24 C${x + 8} 34 ${x + 6} 46 ${x} 46 C${x - 6} 46 ${x - 8} 34 ${x} 24Z" fill="#ffcf5a"/>
+    <circle class="smoke" cx="${x}" cy="42" r="4" fill="#d4aebd"/>`;
   g.blow = () => {
     if (g.classList.contains("out")) return;
     g.classList.add("out"); g.setAttribute("aria-label", `Vela ${i + 1} apagada`);
